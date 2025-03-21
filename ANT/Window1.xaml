@@ -1,0 +1,63 @@
+﻿<Window x:Class="ANT.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ANT"
+        mc:Ignorable="d"
+        Title="Муравьиный алгоритм" Height="500" Width="800" ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Viewbox для масштабирования панели настроек -->
+        <Viewbox Grid.Row="0" Grid.Column="0" Stretch="Uniform">
+            <StackPanel Margin="15" Width="250">
+                <TextBlock Text="Настройки алгоритма" FontWeight="Bold" FontSize="16"/>
+                <TextBlock Text="Кол-во городов" Margin="0,10,0,0"/>
+                <TextBox x:Name="StartVertex" Text="10" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+                <Button Content="Создать новый граф" Click="CreateNewGraph_Click" Width="200" Height="30" Margin="10" Background="#D8BFD8"/>
+                <TextBlock Text="Кол-во муравьев" Margin="0,10,0,0"/>
+                <TextBox Name="AntCount" Text="10" Height="30"/>
+                <TextBlock Text="Кол-во итераций" Margin="0,10,0,0"/>
+                <TextBox Name="IterationCount" Text="100" Height="30"/>
+                <TextBlock Text="Начальное количество феромона" Margin="0,10,0,0"/>
+                <TextBox Name="InitialPheromone" Text="1" Height="30"/>
+                <TextBlock Text="Запас феромона каждого муравья" Margin="0,10,0,0"/>
+                <TextBox Name="AntPheromoneCapacity" Text="5" Height="30"/>
+                <TextBlock Text="Коэффициент испарения" Margin="0,10,0,0"/>
+                <TextBox Name="Evaporation" Text="0,5" Height="30"/>
+                <TextBlock Text="Параметры α и β" Margin="0,10,0,0"/>
+                <TextBox Name="Alpha" Text="1" Height="30"/>
+                <TextBox Name="Beta" Text="2" Height="30"/>
+                <Button Content="Запустить алгоритм" Click="RunAlgorithm_Click" Margin="0,20,0,0" Height="40" Background="#D8BFD8"/>
+                <Button Content="Перейти в режим для решения графа" Click="OpenWindow1_Click" Margin="0,10,0,0" Height="40" Background="#D8BFD8"/>
+            </StackPanel>
+        </Viewbox>
+
+        <!-- Viewbox для масштабирования графа -->
+        <Viewbox Grid.Row="0" Grid.Column="2" Stretch="Uniform">
+            <Canvas x:Name="GraphCanvas" Background="White" Width="800" Height="600"/>
+        </Viewbox>
+
+        <!-- Viewbox для масштабирования результатов -->
+        <Viewbox Grid.Row="1" Grid.ColumnSpan="3" Stretch="Uniform">
+            <StackPanel Margin="15" Width="1000">
+                <TextBlock Text="Результаты" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <!-- Textbox для алгоритма муравьев -->
+                    <TextBox x:Name="AntAlgorithmResult" Height="123" Width="400" TextWrapping="Wrap" IsReadOnly="True" FontSize="14"/>
+                    <TextBlock Width="10"/>
+                    <TextBox x:Name="Result" Height="123" Width="400" TextWrapping="Wrap" IsReadOnly="True" FontSize="14"/>
+                </StackPanel>
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Window>

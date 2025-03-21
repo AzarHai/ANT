@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANT", "ANT\ANT.csproj", "{E9C156C6-A57C-4240-98DF-735784A8B3C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9C156C6-A57C-4240-98DF-735784A8B3C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C156C6-A57C-4240-98DF-735784A8B3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C156C6-A57C-4240-98DF-735784A8B3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C156C6-A57C-4240-98DF-735784A8B3C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ABC39ACE-8AF2-4413-BDA5-186C03EA5451}
+	EndGlobalSection
+EndGlobal
