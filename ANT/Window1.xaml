@@ -16,8 +16,6 @@
             <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <!-- Viewbox для масштабирования панели настроек -->
         <Viewbox Grid.Row="0" Grid.Column="0" Stretch="Uniform">
             <StackPanel Margin="15" Width="250">
                 <TextBlock Text="Настройки алгоритма" FontWeight="Bold" FontSize="16"/>
@@ -41,18 +39,13 @@
                 <Button Content="Перейти в режим для решения графа" Click="OpenWindow1_Click" Margin="0,10,0,0" Height="40" Background="#D8BFD8"/>
             </StackPanel>
         </Viewbox>
-
-        <!-- Viewbox для масштабирования графа -->
         <Viewbox Grid.Row="0" Grid.Column="2" Stretch="Uniform">
             <Canvas x:Name="GraphCanvas" Background="White" Width="800" Height="600"/>
         </Viewbox>
-
-        <!-- Viewbox для масштабирования результатов -->
         <Viewbox Grid.Row="1" Grid.ColumnSpan="3" Stretch="Uniform">
             <StackPanel Margin="15" Width="1000">
                 <TextBlock Text="Результаты" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <!-- Textbox для алгоритма муравьев -->
                     <TextBox x:Name="AntAlgorithmResult" Height="123" Width="400" TextWrapping="Wrap" IsReadOnly="True" FontSize="14"/>
                     <TextBlock Width="10"/>
                     <TextBox x:Name="Result" Height="123" Width="400" TextWrapping="Wrap" IsReadOnly="True" FontSize="14"/>

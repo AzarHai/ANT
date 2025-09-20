@@ -18,7 +18,6 @@ namespace ANT
             InitializeComponent();
         }
 
-        // Загрузка графа из файла
         private void LoadGraph_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "Текстовые файлы|*.txt" };
@@ -26,12 +25,11 @@ namespace ANT
             {
                 graph = Graph.LoadFromFile(openFileDialog.FileName);
                 MessageBox.Show("Граф загружен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-                DrawGraph(); // Визуализация графа после загрузки
+                DrawGraph();
             }
         }
 
 
-        // Запуск алгоритма
         private void RunAlgorithm_Click(object sender, RoutedEventArgs e)
         {
             if (graph == null)
@@ -58,7 +56,6 @@ namespace ANT
                     return;
                 }
 
-                // Муравьиный алгоритм
                 AntColony antColony = new AntColony(graph, antCount, iterations, evaporation, alpha, beta, initialPheromone, antPheromoneCapacity, this);
                 var (antPath, antLength, pheromonesBefore, pheromonesAfter) = antColony.FindShortestPath(start, end);
 
@@ -66,13 +63,11 @@ namespace ANT
                     ? "Муравьиный алгоритм: путь не найден."
                     : $"Муравьиный алгоритм:\nПуть: {string.Join(" -> ", antPath)}\nДлина пути: {antLength}\nФеромоны до: {pheromonesBefore}\nФеромоны после: {pheromonesAfter}";
 
-                // Алгоритм Дейкстры
                 List<int> dijkstraPath = graph.Dijkstra(start, end);
                 string dijkstraResult = dijkstraPath.Count == 0
                     ? "Алгоритм Дейкстры: путь не найден."
                     : $"Алгоритм Дейкстры:\nПуть: {string.Join(" -> ", dijkstraPath)}\nДлина пути: {dijkstraPath.Select((v, i) => i > 0 ? graph.Matrix[dijkstraPath[i - 1], v] : 0).Sum()}";
 
-                // Обновляем текстовые блоки
                 AntAlgorithmResult.Text = antResult;
                 DijkstraResult.Text = dijkstraResult;
             }
@@ -83,18 +78,15 @@ namespace ANT
         }
         private void OpenWindow1_Click(object sender, RoutedEventArgs e)
         {
-            // Save the current window's fullscreen state
             bool isFullscreen = this.WindowState == WindowState.Maximized;
-            // Open the new window
             Window1 window1 = new Window1();
-            // Apply the fullscreen state to the new window if the current one is fullscreen
             if (isFullscreen)
             {
                 window1.WindowState = WindowState.Maximized;
             }
 
             window1.Show();
-            this.Close(); // Close the current window if desired
+            this.Close();
         }
         private void DrawGraph()
         {
@@ -107,7 +99,6 @@ namespace ANT
 
             Point[] positions = new Point[nodeCount];
 
-            // Расставляем вершины по кругу
             double centerX = canvasWidth / 2;
             double centerY = canvasHeight / 2;
             double radius = Math.Min(canvasWidth, canvasHeight) / 2;
@@ -117,7 +108,6 @@ namespace ANT
                 double angle = i * 2 * Math.PI / nodeCount;
                 positions[i] = new Point(centerX + radius * Math.Cos(angle), centerY + radius * Math.Sin(angle));
 
-                // Рисуем вершину
                 Ellipse vertex = new Ellipse
                 {
                     Width = 30,
@@ -131,7 +121,6 @@ namespace ANT
                 Canvas.SetTop(vertex, positions[i].Y - 15);
                 GraphCanvas.Children.Add(vertex);
 
-                // Подписываем вершину
                 TextBlock label = new TextBlock
                 {
                     Text = i.ToString(),
@@ -144,7 +133,6 @@ namespace ANT
                 GraphCanvas.Children.Add(label);
             }
 
-            // Рисуем рёбра со стрелками
             for (int i = 0; i < nodeCount; i++)
             {
                 for (int j = 0; j < nodeCount; j++)
@@ -153,7 +141,6 @@ namespace ANT
                     {
                         DrawArrow(positions[i], positions[j]);
 
-                        // Добавляем вес ребра
                         TextBlock weightLabel = new TextBlock
                         {
                             Text = graph.Matrix[i, j].ToString(),
@@ -173,21 +160,18 @@ namespace ANT
         }
         private void DrawArrow(Point start, Point end)
         {
-            double vertexRadius = 15; // Радиус вершины (половина размера)
+            double vertexRadius = 15;
 
-            // Вычисляем вектор направления
             double dx = end.X - start.X;
             double dy = end.Y - start.Y;
             double length = Math.Sqrt(dx * dx + dy * dy);
 
-            // Смещаем начальную и конечную точки ближе к границе вершины
             double offsetX = (dx / length) * vertexRadius;
             double offsetY = (dy / length) * vertexRadius;
 
             Point adjustedStart = new Point(start.X + offsetX, start.Y + offsetY);
             Point adjustedEnd = new Point(end.X - offsetX, end.Y - offsetY);
 
-            // Рисуем линию
             Line line = new Line
             {
                 X1 = adjustedStart.X,
@@ -200,13 +184,12 @@ namespace ANT
 
             GraphCanvas.Children.Add(line);
 
-            // Добавляем стрелку
             DrawArrowhead(adjustedStart, adjustedEnd);
         }
 
         private void DrawArrowhead(Point start, Point end)
         {
-            double arrowSize = 10; // Длина стрелки
+            double arrowSize = 10;
             double angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
 
             Point arrowPoint1 = new Point(
@@ -253,7 +236,6 @@ namespace ANT
                 this.antPheromoneCapacity = antPheromoneCapacity;
                 this.mainWindow = mainWindow;
 
-                // Инициализация массива феромонов
                 this.pheromones = new double[graph.Size, graph.Size];
 
                 for (int i = 0; i < graph.Size; i++)
@@ -268,7 +250,7 @@ namespace ANT
                 double total = 0;
                 for (int i = 0; i < graph.Size; i++)
                     for (int j = 0; j < graph.Size; j++)
-                        total += pheromones[i, j]; // Массив феромонов
+                        total += pheromones[i, j];
 
                 return total;
             }
@@ -276,7 +258,6 @@ namespace ANT
             {
                 List<int> bestPath = null;
                 double bestLength = double.MaxValue;
-                // Вывод феромонов до выполнения алгоритма
                 double pheromonesBefore = GetTotalPheromone();
 
                 for (int iter = 0; iter < iterations; iter++)
@@ -303,7 +284,6 @@ namespace ANT
                     DepositPheromones(path, length);
                     EvaporatePheromones();
                 }
-                // Вывод феромонов после выполнения алгоритма
                 double pheromonesAfter = GetTotalPheromone();
                 return (bestPath, bestLength, pheromonesBefore, pheromonesAfter);
             }
@@ -316,10 +296,10 @@ namespace ANT
 
                 for (int i = 0; i < graph.Size; i++)
                 {
-                    if (!path.Contains(i) && graph.Matrix[current, i] > 0) // Вершина не должна быть посещена ранее
+                    if (!path.Contains(i) && graph.Matrix[current, i] > 0)
                     {
                         double pheromone = Math.Pow(pheromones[current, i], alpha);
-                        double heuristic = Math.Pow(1.0 / graph.Matrix[current, i], beta); // Чем меньше расстояние, тем лучше
+                        double heuristic = Math.Pow(1.0 / graph.Matrix[current, i], beta);
                         double probability = pheromone * heuristic;
 
                         candidates.Add(i);
@@ -328,9 +308,8 @@ namespace ANT
                     }
                 }
 
-                if (candidates.Count == 0) return -1; // Нет доступных вершин
+                if (candidates.Count == 0) return -1;
 
-                // Выбираем вершину на основе вероятности
                 double rand = new Random().NextDouble() * sum;
                 double cumulative = 0.0;
 
@@ -341,7 +320,7 @@ namespace ANT
                         return candidates[i];
                 }
 
-                return candidates[candidates.Count - 1]; // Запасной вариант, если округление дало сбой
+                return candidates[candidates.Count - 1];
             }
 
             private void EvaporatePheromones()
@@ -353,7 +332,7 @@ namespace ANT
 
             private void DepositPheromones(List<int> path, double length)
             {
-                double pheromoneToDeposit = antPheromoneCapacity / length; // Чем короче путь, тем больше феромонов
+                double pheromoneToDeposit = antPheromoneCapacity / length;
 
                 for (int i = 0; i < path.Count - 1; i++)
                 {
@@ -370,7 +349,6 @@ namespace ANT
             public int[,] Matrix { get; private set; }
             public int Size { get; private set; }
 
-            // Загрузка графа из файла (матрица смежности)
             public static Graph LoadFromFile(string path)
             {
                 var lines = File.ReadAllLines(path);
@@ -379,11 +357,10 @@ namespace ANT
 
                 for (int i = 0; i < size; i++)
                 {
-                    // Используем Split(',') для разделения по запятой
                     var weights = lines[i].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     for (int j = 0; j < size; j++)
                     {
-                        matrix[i, j] = int.Parse(weights[j]); // Преобразуем строку в число
+                        matrix[i, j] = int.Parse(weights[j]);
                     }
                 }
 
